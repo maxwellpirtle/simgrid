@@ -15,6 +15,7 @@ option(enable_compile_optimizations "Whether to produce efficient code for the S
 option(enable_compile_warnings      "Whether compilation warnings should be turned into errors." off)
 option(enable_lto                   "Whether we should try to activate the LTO (link time optimisation)" on)
 option(enable_mallocators           "Enable mallocators (disable only for debugging purpose)." on)
+option(enable_colorized_output      "Whether the compiler's build output is always colorized" off)
 option(enable_maintainer_mode       "Whether flex and flexml files should be rebuilt." off)
 option(enable_debug                 "Turn this off to remove all debug messages at compile time (faster, but no debug activatable)" on)
 

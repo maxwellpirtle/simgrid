@@ -83,7 +83,7 @@ if(enable_maintainer_mode)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wundef")
 endif()
 
-# Se the optimisation flags
+# Set the optimisation flags
 # NOTE, we should CMAKE_BUILD_TYPE for this
 if(enable_compile_optimizations)
   set(optCFLAGS "-O3 -funroll-loops -fno-strict-aliasing ")
@@ -210,7 +210,18 @@ if(NOT enable_debug)
   set(CMAKE_CXX_FLAGS "-DNDEBUG ${CMAKE_CXX_FLAGS}")
 endif()
 
-set(CMAKE_C_FLAGS   "${warnCFLAGS} ${CMAKE_C_FLAGS}   ${optCFLAGS}")
+# Allow for colorized output on Clang and GNU
+if (enable_colorized_output)
+  if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+    set(optCFLAGS "${optCFLAGS} -fdiagnostics-color=always")
+  elseif(CMAKE_C_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(optCFLAGS "${optCFLAGS} -fcolor-diagnostics")
+  else()
+    message(STATUS "Colorized output is currently only available for GNU/Clang compilers")
+  endif()
+endif()
+
+set(CMAKE_C_FLAGS   "${warnCFLAGS} ${CMAKE_C_FLAGS} ${optCFLAGS}")
 set(CMAKE_CXX_FLAGS "${warnCXXFLAGS} ${CMAKE_CXX_FLAGS} ${optCFLAGS}")
 
 # Try to make Mac a bit more compliant to open source standards
